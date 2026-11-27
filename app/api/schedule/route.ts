@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
   }
 
   const sql = neon(databaseUrl);
-  const contact = await sql\`
+  const contact = await sql`
     INSERT INTO contacts (phone_e164, display_name, opted_in_at, opt_in_source)
     VALUES (${phone}, ${body.displayName?.trim() || null}, NOW(), ${source})
     ON CONFLICT (phone_e164) DO UPDATE
@@ -71,17 +71,17 @@ export async function POST(request: NextRequest) {
           opt_in_source = COALESCE(contacts.opt_in_source, EXCLUDED.opt_in_source)
       WHERE contacts.opted_out_at IS NULL
     RETURNING id
-  \`;
+  `;
 
   if (contact.length === 0) {
     return NextResponse.json({ error: "This contact has opted out and cannot be reactivated through scheduling" }, { status: 409 });
   }
 
-  const inserted = await sql\`
+  const inserted = await sql`
     INSERT INTO scheduled_messages (contact_id, template_name, language_code, scheduled_at)
     VALUES (${contact[0].id}, ${template}, ${language}, ${when.toISOString()})
     RETURNING id, status, scheduled_at
-  \`;
+  `;
 
   return NextResponse.json({ ok: true, message: inserted[0] }, { status: 201 });
 }
