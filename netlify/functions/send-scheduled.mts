@@ -75,4 +75,4 @@ export default async function sendScheduled() {
   console.log("Processed " + due.length + " due message(s).");
 }
 
-export const config: Config = { schedule: "*/5 * * * *" };
+export const config: Config = { schedule: "* * * * *" };
