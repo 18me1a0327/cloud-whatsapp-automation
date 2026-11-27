@@ -26,7 +26,7 @@ export default async function sendScheduled() {
       JOIN contacts c ON c.id = m.contact_id
       WHERE m.status = 'pending' AND m.scheduled_at <= NOW()
         AND c.opted_in_at IS NOT NULL AND c.opted_out_at IS NULL
-      ORDER BY m.scheduled_at ASC LIMIT 10
+      ORDER BY m.scheduled_at ASC LIMIT 1
       FOR UPDATE OF m SKIP LOCKED
     )
     UPDATE scheduled_messages m SET status = 'processing', attempts = attempts + 1, updated_at = NOW()
