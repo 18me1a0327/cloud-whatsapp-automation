@@ -5,7 +5,11 @@ export const runtime = "nodejs";
 
 function authorized(request: NextRequest): boolean {
   const expected = process.env.ADMIN_API_KEY;
-  return Boolean(expected && request.headers.get("authorization") === "Bearer " + expected);
+  const candidate = request.cookies.get("wa_admin_session")?.value;
+  if (!expected || !candidate) return false;
+  const a = Buffer.from(candidate);
+  const b = Buffer.from(expected);
+  return a.length === b.length && require("node:crypto").timingSafeEqual(a, b);
 }
 
 export async function POST(request: NextRequest) {
