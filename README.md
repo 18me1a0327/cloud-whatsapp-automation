@@ -11,7 +11,7 @@ Reusable cloud-hosted WhatsApp notification scheduler for opted-in customer and 
 ## Included
 - Public status endpoint: `GET /api/health`
 - Authenticated scheduling endpoint: `POST /api/schedule`
-- Scheduled sender: checks for due messages every five minutes (UTC)
+- Scheduled sender: checks for due messages every minute (UTC)
 - Neon schema for contacts, consent, scheduled messages, and API response status
 
 ## Deploy
