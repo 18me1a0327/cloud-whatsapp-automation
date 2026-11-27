@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
+import { timingSafeEqual } from "node:crypto";
 
 export const runtime = "nodejs";
 
@@ -9,7 +10,7 @@ function authorized(request: NextRequest): boolean {
   if (!expected || !candidate) return false;
   const a = Buffer.from(candidate);
   const b = Buffer.from(expected);
-  return a.length === b.length && require("node:crypto").timingSafeEqual(a, b);
+  return a.length === b.length && timingSafeEqual(a, b);
 }
 
 export async function POST(request: NextRequest) {
