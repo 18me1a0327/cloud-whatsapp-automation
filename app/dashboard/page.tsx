@@ -12,6 +12,8 @@ type FormState = {
   consentConfirmed: boolean;
 };
 
+const localDateTimeMin = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 16); };
+
 const initialForm: FormState = {
   phoneE164: "",
   displayName: "",
@@ -121,7 +123,7 @@ export default function DashboardPage() {
           <label>Approved template name<input value={form.templateName} onChange={(e) => setForm({...form, templateName:e.target.value})} placeholder="service_update" pattern="[a-z0-9_]{2,128}" required /></label>
           <label>Template language<input value={form.languageCode} onChange={(e) => setForm({...form, languageCode:e.target.value})} placeholder="en" required /></label>
         </div>
-        <label>Schedule date and time (your local timezone)<input type="datetime-local" value={form.scheduledAt} onChange={(e) => setForm({...form, scheduledAt:e.target.value})} min={new Date().toISOString().slice(0,16)} required /></label>
+        <label>Schedule date and time (your local timezone)<input type="datetime-local" value={form.scheduledAt} onChange={(e) => setForm({...form, scheduledAt:e.target.value})} min={localDateTimeMin()} required /></label>
         <label>How was consent obtained?<input value={form.consentSource} onChange={(e) => setForm({...form, consentSource:e.target.value})} placeholder="Website signup form, date, etc." required /></label>
         <label className="consent"><input type="checkbox" checked={form.consentConfirmed} onChange={(e) => setForm({...form, consentConfirmed:e.target.checked})} required /> I confirm this person explicitly opted in to receive WhatsApp messages.</label>
         <button disabled={busy}>{busy ? "Scheduling…" : "Schedule message"}</button>
