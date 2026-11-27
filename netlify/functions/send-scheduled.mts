@@ -121,7 +121,7 @@ export default async function sendScheduled() {
     }
   }
 
-  console.log("Processed " + due.length + " due message(s).");
+  console.log("Processed " + due.length + " scheduled message(s).");
 }
 
 export const config: Config = {
